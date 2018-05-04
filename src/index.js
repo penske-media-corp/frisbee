@@ -26,7 +26,6 @@
     this.enqueue = function (item) {
       queue.push(item)
       updateLength()
-      console.log('queue is now', queue)
     }
 
     this.dequeue = function (quantity) {
@@ -60,7 +59,6 @@
 
     var send = function (quantity) {
       var data = queue.dequeue(quantity)
-      console.log('send!', data)
       var xhr = new Request(xhrOptions)
       xhr.send(JSON.stringify({
         payload: data,
@@ -85,10 +83,5 @@
     }
   }
 
-  var frisbee = new Frisbee()
-
-  window.frisbee = {
-    add: frisbee.add,
-    forceSend: frisbee.sendAll
-  }
+  window.Frisbee = Frisbee
 })()
