@@ -41,21 +41,46 @@
     }
   }
 
+  // RFC4122 complaint UUID
+  function uuid () {
+    var uuid = ''
+    var i
+    var random
+
+    for (i = 0; i < 32; i++) {
+      random = Math.random() * 16 | 0
+
+      if (i == 8 || i == 12 || i == 16 || i == 20) {
+        uuid += '-'
+      }
+
+      uuid += (i == 12
+        ? 4
+        : (i == 16
+          ? (random & 3 | 8)
+          : random
+        )
+      ).toString(16)
+    }
+
+    return uuid
+  }
+
   function Frisbee (options) {
     var queue = new Queue()
     options = options || {}
     var maxItems = options.maxItems || 5
     var xhrOptions = {
       method: 'POST',
-      url: 'https://httpbin.org/post',
+      url: options.url,
       headers: {
         'Content-type': 'application/json; charset=utf-8'
       }
     }
-
-    var meta = {}
-    meta.namespace = options.namespace
-    meta.id = 'hfhfhdhsdhdshdh'
+    var meta = {
+      id: uuid(),
+      namespace: options.namespace
+    }
 
     var send = function (quantity) {
       var data = queue.dequeue(quantity)
