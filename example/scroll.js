@@ -11,7 +11,9 @@ function trackScroll (scrollPos) {
 }
 
 window.addEventListener('scroll', function (e) {
-  lastKnownScrollPosition = window.scrollY
+  lastKnownScrollPosition = window.scrollY ||
+    window.pageYOffset ||
+    document.documentElement.scrollTop
 
   if (!ticking) {
     window.requestAnimationFrame(function () {
