@@ -41,54 +41,75 @@
     }
   }
 
-  // RFC4122 complaint UUID
-  function uuid () {
-    var uuid = ''
-    var i
-    var random
+  var utils = {
+    // RFC4122 complaint UUID
+    uuid: function () {
+      var uuid = ''
+      var i
+      var random
 
-    for (i = 0; i < 32; i++) {
-      random = Math.random() * 16 | 0
+      for (i = 0; i < 32; i++) {
+        random = Math.random() * 16 | 0
 
-      if (i == 8 || i == 12 || i == 16 || i == 20) {
-        uuid += '-'
+        if (i === 8 || i === 12 || i === 16 || i === 20) {
+          uuid += '-'
+        }
+
+        uuid += (i === 12
+          ? 4
+          : (i === 16
+            ? (random & 3 | 8)
+            : random
+          )
+        ).toString(16)
       }
 
-      uuid += (i == 12
-        ? 4
-        : (i == 16
-          ? (random & 3 | 8)
-          : random
-        )
-      ).toString(16)
-    }
+      return uuid
+    },
 
-    return uuid
+    getXhrOptions: function (options) {
+      return {
+        method: options.method || 'POST',
+        url: options.url,
+        headers: options.headers || {
+          'Content-type': 'application/json; charset=utf-8'
+        }
+      }
+    },
+
+    getMeta: function (options) {
+      return {
+        id: this.uuid(),
+        namespace: options.namespace
+      }
+    },
+
+    getRequestData: function (data, meta) {
+      return JSON.stringify({
+        payload: data,
+        meta: meta
+      })
+    }
   }
 
   function Frisbee (options) {
     var queue = new Queue()
     options = options || {}
     var maxItems = options.maxItems || 5
-    var xhrOptions = {
-      method: 'POST',
-      url: options.url,
-      headers: {
-        'Content-type': 'application/json; charset=utf-8'
-      }
-    }
-    var meta = {
-      id: uuid(),
-      namespace: options.namespace
-    }
+    var xhrOptions = utils.getXhrOptions(options)
+    var meta = utils.getMeta(options)
+    var getRequestData = typeof options.getRequestData === 'function'
+      ? options.getRequestData
+      : utils.getRequestData
 
     var send = function (quantity) {
       var data = queue.dequeue(quantity)
       var xhr = new Request(xhrOptions)
-      xhr.send(JSON.stringify({
-        payload: data,
-        meta: meta
-      }))
+      var requestData = getRequestData(data, meta)
+
+      if (requestData) {
+        xhr.send(requestData)
+      }
     }
 
     this.add = function (item) {
