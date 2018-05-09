@@ -1,7 +1,5 @@
 # Frisbee
-Frisbee is a small cross-browser data collection library. It incorporates a queue and a HTTP client. You define endpoint to hit and keep adding data to Frisbee. Frisbee takes care of the rest.
-
-todo: WHICH BROWSERS
+Frisbee is a small cross-browser (IE10+) data collection library. It incorporates a queue and a HTTP client. You define endpoint to hit and keep adding data to Frisbee. Frisbee takes care of the rest.
 
 ## Getting started
 Load Frisbee
@@ -30,10 +28,10 @@ Frisbee fills the queue with data until `maxItems` is reached (5 by default). At
 In this example, Frisbee will POST `http://foo/bar` with the following request payload:
 ```json
 {
-  "payload": [1, 2, 3, 4, 5]
+  "payload": [1, 2, 3, 4, 5],
   "meta": {
-    "namespace": "ns", 
-    "id": "instance-specific-uuid"
+    "namespace": "ns",
+    "id": "<instance-specific-uuid>"
   } 
 }
 ```
@@ -52,7 +50,7 @@ frisbee.sendAll()
 This will POST `http://foo/bar`
 ```json
 {
-  "payload": [6, 1]
+  "payload": [6, 1],
   "meta": {
     "namespace": "ns",
     "id": "<instance-specific-uuid>" 
