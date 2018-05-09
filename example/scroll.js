@@ -1,13 +1,31 @@
-var frisbee = new Frisbee({
+var frisbee = new window.Frisbee({
   namespace: 'scroll',
-  url: 'https://httpbin.org/post',
+  url: 'http://mockbin.org/request/foo',
   maxItems: 10
+})
+var frisbeeCustomRequestData = new window.Frisbee({
+  namespace: 'scroll-custom',
+  url: 'http://mockbin.org/request/foo-custom',
+  maxItems: 6,
+  getRequestData: function (data, meta) {
+    var requestData = []
+    data.forEach(function (item) {
+      requestData.push({
+        value: item,
+        id: meta.id,
+        namespace: meta.namespace
+      })
+    })
+
+    return JSON.stringify(requestData)
+  }
 })
 var lastKnownScrollPosition = 0
 var ticking = false
 
 function trackScroll (scrollPos) {
   frisbee.add(scrollPos)
+  frisbeeCustomRequestData.add(scrollPos)
 }
 
 window.addEventListener('scroll', function (e) {
