@@ -6,10 +6,18 @@
   "scripts": {
     "build": "NODE_ENV=production webpack -p",
     "dev": "NODE_ENV=development webpack",
-    "lint": "eslint --ext .js --ignore-path .gitignore .",
-    "precommit": "yarn lint",
+    "lint:base": "eslint --ext .js --ignore-path .gitignore",
+    "lint": "yarn lint:base .",
     "test": "jest",
     "test:watch": "jest --watch"
+  },
+  "lint-staged": {
+    "*.js": "yarn lint:base"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -21,7 +29,9 @@
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-standard": "^3.1.0",
+    "husky": "^1.0.0-rc.4",
     "jest": "^22.4.3",
+    "lint-staged": "^7.1.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack": "^4.8.1",
     "webpack-cli": "^2.1.3"
