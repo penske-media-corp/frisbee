@@ -8,15 +8,20 @@
     "dev": "NODE_ENV=development webpack",
     "lint": "eslint --ext .js --ignore-path .gitignore .",
     "precommit": "yarn lint",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-jest": "^22.4.3",
+    "babel-preset-env": "^1.7.0",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-standard": "^3.1.0",
+    "jest": "^22.4.3",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack": "^4.8.1",
     "webpack-cli": "^2.1.3"
