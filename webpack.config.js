@@ -4,7 +4,7 @@ const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
   mode: isProd ? process.env.NODE_ENV : 'none',
-  entry: './src/index.js',
+  entry: './src/build.js',
   watch: !isProd,
   devtool: isProd ? undefined : 'inline-source-map',
   output: {

@@ -1,3 +1,3 @@
 import Frisbee from './Frisbee'
 
-export default Frisbee
+window.Frisbee = Frisbee
