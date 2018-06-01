@@ -1,7 +1,7 @@
 {
-  "name": "frisbee",
+  "name": "@sheknows/frisbee",
   "version": "0.2.0",
-  "private": true,
+  "license": "MIT",
   "main": "./src/index.js",
   "description": "Data collection transport library",
   "scripts": {
